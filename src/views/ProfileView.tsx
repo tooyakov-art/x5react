@@ -109,24 +109,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, onLogout, langua
         document.body.removeChild(form);
     };
 
-    const handleTestPro = () => {
-        console.log("[ProfileView] handleTestPro called, onUpdateUser:", !!onUpdateUser);
-        if (onUpdateUser) {
-            const updatedUser = {
-                ...user,
-                plan: 'pro' as const,
-                credits: 10000
-            };
-            onUpdateUser(updatedUser);
-            localStorage.setItem('x5_user', JSON.stringify(updatedUser));
-            localStorage.setItem('x5_credits', '10000');
-            alert("Про версия активирована! 10000 кредитов добавлено.");
-            setCurrentMode('profile');
-        } else {
-            alert("Ошибка: onUpdateUser не передан!");
-            console.error("[ProfileView] onUpdateUser is undefined!");
-        }
-    };
+
 
     const handlePaymentAccess = () => {
         if (user.isGuest) {
@@ -188,7 +171,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, onLogout, langua
             platform={platform}
             onPlatformChange={onPlatformChange}
             isDevMode={isDevMode}
-            onTestPro={handleTestPro}
         />
     );
     if (currentMode === 'contacts') return <SupportView language={language} onBack={() => setCurrentMode('settings')} />;
@@ -208,7 +190,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, onLogout, langua
             language={language}
             onClose={() => setCurrentMode('profile')}
             onBuy={handleBuyCredits}
-            onTestPro={handleTestPro}
             platform={platform}
         />
     );
@@ -269,6 +250,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, onLogout, langua
                     <span className={`mt-1 px-3 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${user.plan === 'free' ? 'bg-slate-200 text-slate-500' : 'bg-black text-white'}`}>
                         {user.plan === 'free' ? t('profile_sub_basic', language) : t('profile_sub_pro', language)}
                     </span>
+                    {user.plan === 'pro' && user.subscriptionDate && (
+                        <span className="text-[9px] text-slate-400 font-bold mt-1 tracking-tight">
+                            Active since: {new Date(user.subscriptionDate).toLocaleDateString()}
+                        </span>
+                    )}
                 </div>
             )}
 
@@ -370,17 +356,6 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, onLogout, langua
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{t('profile_history_guest', language)}</p>
                     </div>
                 )}
-            </div>
-
-            {/* Tester Pro Toggle - MOVED TO MAIN SCREEN */}
-            <div className="px-5 mb-4">
-                <button
-                    onClick={handleTestPro}
-                    className="w-full py-3 bg-purple-100 text-purple-700 rounded-[20px] font-bold text-sm shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
-                >
-                    <Shield size={18} />
-                    <span>Tester Pro Mode</span>
-                </button>
             </div>
 
             {/* Platform Info Footer */}

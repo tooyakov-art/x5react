@@ -10,21 +10,17 @@ interface PaywallViewProps {
     language: Language;
     onClose: () => void;
     onBuy: () => void;
-    onTestPro?: () => void;
     platform?: Platform;
 }
 
-export const PaywallView: React.FC<PaywallViewProps> = ({ language, onClose, onBuy, onTestPro, platform = 'web' }) => {
+export const PaywallView: React.FC<PaywallViewProps> = ({ language, onClose, onBuy, platform = 'web' }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleBuy = () => {
         // Hybrid App Logic (WebView)
         if (isMobileApp()) {
             // Мы в приложении - зовем Apple Pay via Flutter Bridge
-            sendToApp('payBridge', {
-                product: 'x5_pro_monthly', // Correct Product ID
-                price: '4990'
-            });
+            sendToApp('payBridge', 'x5_pro_monthly');
             return;
         }
 
@@ -43,6 +39,15 @@ export const PaywallView: React.FC<PaywallViewProps> = ({ language, onClose, onB
         } else {
             // Web Flow
             onBuy();
+        }
+    };
+
+    const handleRestore = () => {
+        if (isMobileApp()) {
+            // Restore Purchases via Flutter Bridge
+            sendToApp('restoreBridge');
+        } else {
+            alert("Restore is available only in the mobile app.");
         }
     };
 
@@ -155,6 +160,23 @@ export const PaywallView: React.FC<PaywallViewProps> = ({ language, onClose, onB
                             </div>
                         </div>
                     )}
+
+                    {/* RESTORE & LEGAL LINKS (REQUIRED FOR APPLE) */}
+                    <div className="mt-8 flex flex-col items-center gap-5 w-full pb-6">
+                        {isHybrid && (
+                            <button
+                                onClick={handleRestore}
+                                className="text-slate-400 text-xs font-bold hover:text-slate-600 transition-colors uppercase tracking-widest"
+                            >
+                                {t('pay_restore', language)}
+                            </button>
+                        )}
+
+                        <div className="flex gap-6 text-[9px] text-slate-300 font-bold uppercase tracking-widest">
+                            <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noreferrer" className="hover:text-slate-500 transition-colors">{t('settings_offer', language)}</a>
+                            <a href="#" className="hover:text-slate-500 transition-colors">{t('settings_privacy', language)}</a>
+                        </div>
+                    </div>
 
                 </div>
             </div>

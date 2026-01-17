@@ -16,10 +16,10 @@ interface SettingsViewProps {
     onPlatformChange?: (platform: Platform) => void;
     // Admin logic
     isDevMode?: boolean;
-    onTestPro?: () => void;
 }
 
-export const SettingsView: React.FC<SettingsViewProps> = ({ language, onClose, onNavigateTo, onLogout, onDevTap, platform = 'web', onPlatformChange, isDevMode = false, onTestPro }) => {
+
+export const SettingsView: React.FC<SettingsViewProps> = ({ language, onClose, onNavigateTo, onLogout, onDevTap, platform = 'web', onPlatformChange, isDevMode = false }) => {
 
     const [faceIdEnabled, setFaceIdEnabled] = useState(() => localStorage.getItem('x5_face_id_enabled') === 'true');
     const [showPlatformSelect, setShowPlatformSelect] = useState(false);
@@ -107,25 +107,25 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ language, onClose, o
                                     <Smartphone size={24} className={platform === 'ios' ? 'text-white' : 'text-slate-400'} />
                                     <div className="flex-1 text-left">
                                         <span className="block font-bold">iOS (iPhone)</span>
-                                        <span className={`text-[10px] uppercase font-bold tracking-widest ${platform === 'ios' ? 'text-white/60' : 'text-slate-400'}`}>WKWebView</span>
+                                        <span className={`text-[10px]uppercase font-bold tracking-widest ${platform === 'ios' ? 'text-white/60' : 'text-slate-400'}`}>WKWebView</span>
                                     </div>
                                     {platform === 'ios' && <CheckCircle2 size={20} className="text-white" />}
                                 </button>
 
-                                <button onClick={() => selectPlatform('android')} className={`w-full p-4 rounded-[20px] flex items-center gap-4 border-2 transition-all ${platform === 'android' ? 'border-green-500 bg-green-50 text-green-700' : 'border-transparent bg-slate-50 hover:bg-slate-100 text-slate-900'}`}>
+                                <button onClick={() => selectPlatform('android')} className={`w-full p-4 rounded-[20px]flex items-center gap-4 border-2 transition-all ${platform === 'android' ? 'border-green-500 bg-green-50 text-green-700' : 'border-transparent bg-slate-50 hover:bg-slate-100 text-slate-900'}`}>
                                     <Smartphone size={24} className={platform === 'android' ? 'text-green-600' : 'text-slate-400'} />
                                     <div className="flex-1 text-left">
                                         <span className="block font-bold">Android</span>
-                                        <span className={`text-[10px] uppercase font-bold tracking-widest ${platform === 'android' ? 'text-green-600/70' : 'text-slate-400'}`}>Chrome WebView</span>
+                                        <span className={`text-[10px]uppercase font-bold tracking-widest ${platform === 'android' ? 'text-green-600/70' : 'text-slate-400'}`}>Chrome WebView</span>
                                     </div>
                                     {platform === 'android' && <CheckCircle2 size={20} className="text-green-600" />}
                                 </button>
 
-                                <button onClick={() => selectPlatform('web')} className={`w-full p-4 rounded-[20px] flex items-center gap-4 border-2 transition-all ${platform === 'web' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-transparent bg-slate-50 hover:bg-slate-100 text-slate-900'}`}>
+                                <button onClick={() => selectPlatform('web')} className={`w-full p-4 rounded-[20px]flex items-center gap-4 border-2 transition-all ${platform === 'web' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-transparent bg-slate-50 hover:bg-slate-100 text-slate-900'}`}>
                                     <Monitor size={24} className={platform === 'web' ? 'text-blue-600' : 'text-slate-400'} />
                                     <div className="flex-1 text-left">
                                         <span className="block font-bold">Web Browser</span>
-                                        <span className={`text-[10px] uppercase font-bold tracking-widest ${platform === 'web' ? 'text-blue-600/70' : 'text-slate-400'}`}>Standard</span>
+                                        <span className={`text-[10px]uppercase font-bold tracking-widest ${platform === 'web' ? 'text-blue-600/70' : 'text-slate-400'}`}>Standard</span>
                                     </div>
                                     {platform === 'web' && <CheckCircle2 size={20} className="text-blue-600" />}
                                 </button>

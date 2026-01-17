@@ -172,10 +172,23 @@ function App() {
                 setCurrentView('success');
             } else {
                 // Logic from handleGeneralPaymentSuccess
-                const updatedUser: User = { ...user, credits: (user.credits || 0) + 1000, plan: 'pro' };
+                const updatedUser: User = {
+                    ...user,
+                    credits: (user.credits || 0) + 1000,
+                    plan: 'pro',
+                    subscriptionDate: new Date().toISOString()
+                };
                 setUser(updatedUser);
                 localStorage.setItem('x5_credits', updatedUser.credits.toString());
                 localStorage.setItem('x5_user', JSON.stringify(updatedUser));
+
+                // CRITICAL FIX: Persist to Firestore
+                db.collection('users').doc(user.id).set({
+                    credits: updatedUser.credits,
+                    plan: 'pro',
+                    subscriptionDate: updatedUser.subscriptionDate
+                }, { merge: true }).catch((e) => console.error("Firestore update failed", e));
+
                 setCurrentView('success');
             }
         };

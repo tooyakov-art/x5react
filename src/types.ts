@@ -7,24 +7,24 @@ export type Language = 'ru' | 'en' | 'kz' | 'tr' | 'cn' | 'ae' | 'es' | 'fr' | '
 export type Platform = 'web' | 'ios' | 'android';
 
 export interface ViewProps {
-  isVisible?: boolean; 
+  isVisible?: boolean;
   onBack?: () => void;
   initialPrompt?: string;
   user?: User | null;
   messages?: ChatMessage[];
   isTyping?: boolean;
-  onSendMessage?: (text: string) => void; 
+  onSendMessage?: (text: string) => void;
   onNavigate?: (view: ViewState, payload?: any) => void;
   checkUsage?: (tier: 'standard' | 'pro', cost?: number) => boolean;
   onUpdateUser?: (user: User) => void;
   language?: Language;
   setLanguage?: (lang: Language) => void; // Added for HomeView language toggle
   onRestoreHistory?: (item: HistoryItem) => void;
-  attachedFiles?: File[]; 
-  onFileSelect?: (e: React.ChangeEvent<HTMLInputElement>) => void; 
-  onRemoveFile?: (index: number) => void; 
-  filePreviews?: string[]; 
-  initialImage?: string; 
+  attachedFiles?: File[];
+  onFileSelect?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemoveFile?: (index: number) => void;
+  filePreviews?: string[];
+  initialImage?: string;
   onBuyCourse?: (course: Course) => void;
   platform?: Platform; // Added platform prop
   onToggleTabBar?: (visible: boolean) => void; // NEW: Control Dock visibility
@@ -40,6 +40,7 @@ export interface User {
   plan: 'free' | 'pro' | 'black';
   credits: number;
   purchasedCourseIds?: string[]; // Track individual purchases
+  subscriptionDate?: string; // Date of Pro plan activation
 }
 
 export interface LinkData {
@@ -94,16 +95,16 @@ export interface ChatMessage {
   role: MessageRole;
   type: MessageType;
   content?: string;
-  mediaUrls?: string[]; 
+  mediaUrls?: string[];
   planData?: TechSuggestion[];
   timestamp: number;
 }
 
-export type DesignType = 
-  | 'instagram_pack' 
+export type DesignType =
+  | 'instagram_pack'
   | 'kp' | 'presentation' | 'creative' | 'brand' | 'landing'
-  | 'logo' | 'stories' | 'reels_script' | 'post' | 'article' 
-  | 'business_card' | 'flyer' | 'banner' | 'email' 
+  | 'logo' | 'stories' | 'reels_script' | 'post' | 'article'
+  | 'business_card' | 'flyer' | 'banner' | 'email'
   | 'product_card' | 'sticker' | 'merch' | 'youtube' | 'podcast' | 'checklist';
 
 export type PhotoMode = 'auto' | 'studio' | 'lookbook' | 'product' | 'creative' | 'cyber' | 'logo' | 'branding';
@@ -160,7 +161,7 @@ export interface AIAnalysisResponse {
   status: 'complete' | 'needs_info';
   contract?: string;
   questions?: string[];
-  extractedData?: Partial<ContractFormData>; 
+  extractedData?: Partial<ContractFormData>;
 }
 
 export interface ImageGenerationResponse {
@@ -195,8 +196,8 @@ export type VideoFont = 'Inter' | 'Montserrat' | 'Bebas Neue' | 'Playfair Displa
 export type VideoAnimation = 'none' | 'fade-up' | 'scale-in' | 'slide-right' | 'blur-in' | 'typewriter';
 
 export interface ElementPosition {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 export interface CreativeHook {
@@ -205,19 +206,19 @@ export interface CreativeHook {
   smallText?: string;
   cta?: string;
   id?: number;
-  
+
   // Visual Styles
   styleId?: string;
   font?: VideoFont;
   animation?: VideoAnimation;
   textScale?: number; // 0.5 to 2.0
-  
+
   // Individual Positions
   positions?: {
-      headline?: ElementPosition;
-      badge?: ElementPosition;
-      smallText?: ElementPosition;
-      cta?: ElementPosition;
+    headline?: ElementPosition;
+    badge?: ElementPosition;
+    smallText?: ElementPosition;
+    cta?: ElementPosition;
   };
 }
 
